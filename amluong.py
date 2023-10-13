@@ -87,7 +87,7 @@ while True:
     fps = 1 / (cTime - pTime)
     pTime = cTime
     # show fps lên màn hình
-    cv2.putText(frame, f"FPS: {int(fps)}", (150, 70),
+    cv2.putText(frame, f"FPS: {int(fps)}", (20, 70),
                 cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 0), 3)
 
     cv2.imshow("Anh Duc", frame)
