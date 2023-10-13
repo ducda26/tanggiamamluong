@@ -63,8 +63,15 @@ while True:
         print(length, vol)
         # -60: thay đổi -60 thì âm thanh máy tính thay đổi (-65,25-->0)
         volume.SetMasterVolumeLevel(vol, None)
+
+        if length < 25:
+            # Vẽ 1 đường tròn khác màu để báo giá trị min
+            cv2.circle(frame, (cx, cy), 15, (0, 255, 0), -1) #-1: lấp đầy
         
-        
+        #Vẽ hình hiển thị thanh volume
+        cv2.rectangle(frame,(50,150), (100,400),(0,255,0),3)
+        #-1: lấp đầy. đè lên hình đã vẽ
+        cv2.rectangle(frame,(50,150), (100,400),(0,255,0),-1) 
 
     # viết ra FPS
     # trả về số giây, tính từ 0:0:00 ngày 1/1/1970 theo giờ  utc , gọi là(thời điểm bắt đầu thời gian)
