@@ -1,5 +1,6 @@
 import cv2
 import time
+import math
 import hand as htm
 
 pTime = 0  # Thời gian bắt đầu
@@ -16,7 +17,7 @@ while True:
 
     if len(lmList) != 0:  # Có tín hiệu bàn tay mới bắt đầu làm
         # cần sử dụng 2 ngón trỏ và ngón cái (point 4, và 8)
-        print(lmList[4], lmList[8])  # đẩy về giá trị điểm 4 và 8
+        # print(lmList[4], lmList[8])  # đẩy về giá trị điểm 4 và 8
         x1, y1 = lmList[4][1], lmList[4][2]  # get tọa độ đầu ngón cái
         x2, y2 = lmList[8][1], lmList[8][2]  # get tọa độ đầu ngón trỏ
 
@@ -24,6 +25,16 @@ while True:
         cv2.circle(frame, (x1, y1), 15, (255, 0, 255), -1)
         cv2.circle(frame, (x2, y2), 15, (255, 0, 255), -1)
         cv2.line(frame, (x1, y1), (x2, y2), (255, 0, 255), 3)
+
+        # vẽ đường tròn giữa 2 đường thằng nối ngón cái và ngón giữa
+        cx, cy = (x1+x2)//2, (y1+y2)//2  # xác định tâm
+        cv2.circle(frame, (cx, cy), 15, (255, 0, 255), -1)
+        
+        #xác định độ dài đoạn thẳng nối từ ngón trái đến ngón trỏ
+        #1 phút Toán học =))
+        length = math.hypot(x2-x1,y2-y1)
+        # print(length)  # độ dài tay tôi vào khoảng 25 đến 250
+                        # dải âm lượng từ -64 đến 0
 
     # viết ra FPS
     # trả về số giây, tính từ 0:0:00 ngày 1/1/1970 theo giờ  utc , gọi là(thời điểm bắt đầu thời gian)
