@@ -19,7 +19,7 @@ interface = devices.Activate(
 volume = interface.QueryInterface(IAudioEndpointVolume)
 # volume.GetMute()
 # volume.GetMasterVolumeLevel()
-volRange = volume.GetVolumeRange() #Phạm vi âm lượng
+volRange = volume.GetVolumeRange()  # Phạm vi âm lượng
 # print(volRange)
 # print(type(volRange))
 
@@ -27,7 +27,7 @@ volRange = volume.GetVolumeRange() #Phạm vi âm lượng
 # print(volRange[1])
 minVol = volRange[0]
 maxVol = volRange[1]
-# volume.SetMasterVolumeLevel(-20.0, None)
+
 
 while True:
     ret, frame = cap.read()
@@ -55,7 +55,10 @@ while True:
         # 1 phút Toán học =))
         length = math.hypot(x2-x1, y2-y1)
         # print(length)  # độ dài tay tôi vào khoảng 25 đến 250
-        # dải âm lượng từ -64 đến 0
+
+        # dải âm lượng từ -65,25 đến 0
+        # -60: thay đổi -60 thì âm thanh máy tính thay đổi (-65,25-->0)
+        volume.SetMasterVolumeLevel(-60.0, None)
 
     # viết ra FPS
     # trả về số giây, tính từ 0:0:00 ngày 1/1/1970 theo giờ  utc , gọi là(thời điểm bắt đầu thời gian)
