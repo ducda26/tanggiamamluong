@@ -3,10 +3,31 @@ import time
 import math
 import hand as htm
 
+# Thư viện pycaw
+from comtypes import CLSCTX_ALL
+from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+
 pTime = 0  # Thời gian bắt đầu
 cap = cv2.VideoCapture(0)
 detector = htm.handDetector(detectionCon=0.7)
 # detectionCon=0.7 độ tin cậy phát hiện ra lòng bàn tay là 0.7
+
+# Code mẫu thư viện pycaw (điều chỉnh âm thanh)
+devices = AudioUtilities.GetSpeakers()
+interface = devices.Activate(
+    IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+volume = interface.QueryInterface(IAudioEndpointVolume)
+# volume.GetMute()
+# volume.GetMasterVolumeLevel()
+volRange = volume.GetVolumeRange() #Phạm vi âm lượng
+# print(volRange)
+# print(type(volRange))
+
+# print(volRange[0])
+# print(volRange[1])
+minVol = volRange[0]
+maxVol = volRange[1]
+# volume.SetMasterVolumeLevel(-20.0, None)
 
 while True:
     ret, frame = cap.read()
@@ -29,12 +50,12 @@ while True:
         # vẽ đường tròn giữa 2 đường thằng nối ngón cái và ngón giữa
         cx, cy = (x1+x2)//2, (y1+y2)//2  # xác định tâm
         cv2.circle(frame, (cx, cy), 15, (255, 0, 255), -1)
-        
-        #xác định độ dài đoạn thẳng nối từ ngón trái đến ngón trỏ
-        #1 phút Toán học =))
-        length = math.hypot(x2-x1,y2-y1)
+
+        # xác định độ dài đoạn thẳng nối từ ngón trái đến ngón trỏ
+        # 1 phút Toán học =))
+        length = math.hypot(x2-x1, y2-y1)
         # print(length)  # độ dài tay tôi vào khoảng 25 đến 250
-                        # dải âm lượng từ -64 đến 0
+        # dải âm lượng từ -64 đến 0
 
     # viết ra FPS
     # trả về số giây, tính từ 0:0:00 ngày 1/1/1970 theo giờ  utc , gọi là(thời điểm bắt đầu thời gian)
